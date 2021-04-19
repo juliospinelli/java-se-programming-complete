@@ -4,6 +4,8 @@ import static java.math.RoundingMode.HALF_UP;
 import static labs.pm.data.Rating.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * {@code Product} class represents properties and behaviours of product objects
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
  * @version 4.0
  * @author oracle
  */
-public class Product {
+public abstract class Product implements Rateable<Product> {
     /**
      * A constant that defines a {@link java.math.BigDecimal BigDecimal} value of
      * the discount rate <br>
@@ -28,18 +30,14 @@ public class Product {
     private BigDecimal price;
     private Rating rating;
 
-    public Product() {
-        this(0, "No name", BigDecimal.ZERO);
-    }
-
-    public Product(int id, String name, BigDecimal price, Rating rating) {
+    Product(int id, String name, BigDecimal price, Rating rating) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.rating = rating;
     }
 
-    public Product(int id, String name, BigDecimal price) {
+    Product(int id, String name, BigDecimal price) {
         this(id, name, price, NOT_RATED);
     }
 
@@ -67,6 +65,7 @@ public class Product {
     /**
      * @return the rating
      */
+    @Override
     public Rating getRating() {
         return rating;
     }
@@ -81,7 +80,37 @@ public class Product {
         return this.price.multiply(DISCOUNT_RATE).setScale(2, HALF_UP);
     }
 
-    public Product applyRating(Rating newRating) {
-        return new Product(this.id, this.name, this.price, newRating);
+    /**
+     * Get the value of the best before date for the product
+     * 
+     * @return the bestBefore
+     */
+    public LocalDate getBestBefore() {
+        return LocalDate.now();
+    }
+
+    @Override
+    public String toString() {
+        return this.id + ", " + this.name + ", " + this.price + ", " + this.getDiscount() + ", "
+                + this.rating.getStars() + ", " + this.getBestBefore();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof Product) {
+            final Product other = (Product) obj;
+            return this.id == other.id && Objects.equals(this.name, other.name);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + this.id;
+        return hash;
     }
 }
