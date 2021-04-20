@@ -5,7 +5,6 @@ import static labs.pm.data.Rating.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * {@code Product} class represents properties and behaviours of product objects
@@ -102,7 +101,7 @@ public abstract class Product implements Rateable<Product> {
         }
         if (obj instanceof Product) {
             final Product other = (Product) obj;
-            return this.id == other.id && Objects.equals(this.name, other.name);
+            return this.id == other.id;
         }
         return false;
     }
