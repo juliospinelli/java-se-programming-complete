@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 
 import labs.pm.data.Product;
-import labs.pm.data.ProductManager;
+import labs.pm.data.ProductManagement;
 import labs.pm.data.Rating;
 
 /**
@@ -16,7 +16,7 @@ import labs.pm.data.Rating;
  */
 public class Shop {
     public static void main(String[] args) {
-        ProductManager pm = new ProductManager("en-GB");
+        ProductManagement pm = new ProductManagement("en-GB");
 
         pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
         // pm.printProductReport(101);

@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class ProductManager {
+public class ProductManagement {
 
     private Map<Product, List<Review>> products = new HashMap<>();
     private ResourceFormatter formatter;
@@ -26,11 +26,11 @@ public class ProductManager {
             new ResourceFormatter(new Locale("ru", "RU")), "pt-BR", new ResourceFormatter(new Locale("pt", "BR")),
             "zh-CN", new ResourceFormatter(Locale.CHINA));
 
-    public ProductManager(Locale locale) {
+    public ProductManagement(Locale locale) {
         this(locale.toLanguageTag());
     }
 
-    public ProductManager(String languageTag) {
+    public ProductManagement(String languageTag) {
         changeLocale(languageTag);
     }
 
