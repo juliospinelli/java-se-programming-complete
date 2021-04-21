@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 
 import labs.pm.data.Product;
-import labs.pm.data.ProductManagement;
+import labs.pm.data.ProductManager;
 import labs.pm.data.Rating;
 
 /**
@@ -16,7 +16,7 @@ import labs.pm.data.Rating;
  */
 public class Shop {
     public static void main(String[] args) {
-        ProductManagement pm = new ProductManagement("en-GB");
+        ProductManager pm = new ProductManager("en-GB");
 
         pm.createProduct(101, "Tea", BigDecimal.valueOf(1.99), Rating.NOT_RATED);
         // pm.printProductReport(101);
@@ -62,6 +62,10 @@ public class Shop {
 
         Comparator<Product> ratingSorter = (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
         pm.printProducts(p -> p.getPrice().floatValue() < 2, ratingSorter);
+
+        pm.getDiscounts().forEach(
+            (rating, discount) -> System.out.println(rating + '\t' + discount)
+        );
 
         Comparator<Product> priceSorter = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());
         // pm.printProducts(priceSorter);

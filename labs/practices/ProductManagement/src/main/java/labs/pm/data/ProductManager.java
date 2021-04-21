@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ProductManagement {
+public class ProductManager {
 
     private Map<Product, List<Review>> products = new HashMap<>();
     private ResourceFormatter formatter;
@@ -28,11 +28,11 @@ public class ProductManagement {
             new ResourceFormatter(new Locale("ru", "RU")), "pt-BR", new ResourceFormatter(new Locale("pt", "BR")),
             "zh-CN", new ResourceFormatter(Locale.CHINA));
 
-    public ProductManagement(Locale locale) {
+    public ProductManager(Locale locale) {
         this(locale.toLanguageTag());
     }
 
-    public ProductManagement(String languageTag) {
+    public ProductManager(String languageTag) {
         changeLocale(languageTag);
     }
 
@@ -112,6 +112,18 @@ public class ProductManagement {
 
     public Product findProduct(int id) {
         return products.keySet().stream().filter(p -> p.getId() == id).findFirst().orElseGet(() -> null);
+    }
+
+    public Map<String, String> getDiscounts() {
+        return products.keySet()
+            .stream()
+            .collect(
+                Collectors.groupingBy(
+                    product -> product.getRating().getStars(),
+                    Collectors.collectingAndThen(
+                        Collectors.summingDouble(
+                            product -> product.getDiscount().doubleValue()),
+                            discount -> formatter.moneyFormat.format(discount))));
     }
 
     private static class ResourceFormatter {
