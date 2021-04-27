@@ -156,14 +156,17 @@ public class ProductManager {
             int id = Integer.parseInt((String) values[1]);
             String name = (String) values[2];
             BigDecimal price = BigDecimal.valueOf(Double.parseDouble((String) values[3]));
-            Rating rating = Rateable.convert(Integer.parseInt((String)values[4 ]));
+            Rating rating = Rateable.convert(Integer.parseInt((String) values[4]));
             switch ((String) values[0]) {
-                case "D":
-                    createProduct(id, name, price, rating);
-                    break;
-                case "F":
-                    LocalDate bestBefore = LocalDate.parse((String) values[5]);
-                    createProduct(id, name, price, rating, bestBefore);
+            case "D":
+                createProduct(id, name, price, rating);
+                break;
+            case "F":
+                LocalDate bestBefore = LocalDate.parse((String) values[5]);
+                createProduct(id, name, price, rating, bestBefore);
+                break;
+            default:
+                break;
             }
         } catch (ParseException | NumberFormatException | DateTimeParseException e) {
             logger.log(Level.WARNING, "Error parsing product " + text + " " + e.getMessage());
